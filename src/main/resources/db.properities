@@ -1,0 +1,7 @@
+jdbc.user=root
+jdbc.password=7379695
+jdbc.driverClass=com.mysql.jdbc.Driver
+jdbc.jdbcUrl=jdbc:mysql:///book_store
+
+jdbc.initialPoolSize=5
+jdbc.maxPoolSize=10
