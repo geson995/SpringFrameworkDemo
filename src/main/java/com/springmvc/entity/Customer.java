@@ -13,7 +13,8 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "queryCustomerBalance",query = "SELECT c.balance FROM Customer c WHERE c.name = :customerName"),
         @NamedQuery(name = "updateCustomerBalance",query = "UPDATE Customer c SET c.balance = c.balance - :bookPrice WHERE c.name = :customerName"),
-        @NamedQuery(name = "queryCustomersByName",query = "from Customer c where c.name = :customerName")
+        @NamedQuery(name = "queryCustomersByName", query = "from Customer c where c.name = :customerName"),
+        @NamedQuery(name = "queryCustomers", query = "from Customer ")
 })
 public class Customer {
     @Id

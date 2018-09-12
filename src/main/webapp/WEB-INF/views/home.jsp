@@ -12,7 +12,7 @@
     <title>HOME</title>
 </head>
 <body>
-    <h1>HOME JSP</h1>
+<a href="/"><h1>HOME JSP</h1></a>
     <h1>${customerName}</h1>
 </body>
 </html>

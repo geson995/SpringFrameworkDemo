@@ -1,5 +1,7 @@
 package com.springmvc.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.springmvc.dao.ShopRepository;
 import com.springmvc.entity.Book;
 import com.springmvc.service.ShopService;
 import org.junit.Test;
@@ -16,10 +18,12 @@ import java.util.List;
 public class ShopServiceImplTest {
     private ApplicationContext context = null;
     private ShopService shopService = null;
+    private ShopRepository shopRepository = null;
 
     {
         context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         shopService = context.getBean(ShopService.class);
+        shopRepository = context.getBean(ShopRepository.class);
     }
 
     @Test
@@ -43,6 +47,6 @@ public class ShopServiceImplTest {
 
     @Test
     public void test3() {
-        shopService.buyBook("jayjay", "C");
+        System.out.println(JSON.toJSONString(shopRepository.findBookByBookName("java")));
     }
 }

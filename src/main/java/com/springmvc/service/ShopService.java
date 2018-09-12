@@ -14,6 +14,8 @@ public interface ShopService {
     public void addCustomerOrRecharge(String userName, Float cash);
     public void addBooks(List<Book> bookList);
     public List<Customer> getAllCustomers();
-    public List<Book> showAllBooks();
 
+    public List<Book> getAllBooks();
+
+    public Book findBookByName(String bookName);
 }

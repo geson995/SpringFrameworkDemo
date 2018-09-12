@@ -17,11 +17,11 @@ import java.util.List;
 @Repository("shopRepository")
 @Transactional
 public class ShopRepositoryImpl implements ShopRepository {
-  @Autowired
-  private SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
 
-  @Autowired
-  private HibernateTemplate hibernateTemplate;
+    @Autowired
+    private HibernateTemplate hibernateTemplate;
 
   private Session getSession() {
     return sessionFactory.getCurrentSession();
@@ -33,9 +33,10 @@ public class ShopRepositoryImpl implements ShopRepository {
   /** HQL语句中表名应该是ORM映射的类名,而不是你在数据库中的表名 */
   public Book findBookByBookName(String name) {
     //        String queryPriceSql = "SELECT b.price FROM Book b WHERE b.name = ?";
+      return (Book) getHibernateTemplate().find("select b from Book b where b.name = ?", name).get(0);
     //        getSession().beginTransaction();
-    Query query = getSession().getNamedQuery("queryBookByName").setString("bookName", name);
-    return (Book) query.uniqueResult();
+//    Query query = getSession().getNamedQuery("queryBookByName").setString("bookName", name);
+//    return (Book) query.uniqueResult();
   }
 
   public void updateBookCount(String name) {
@@ -77,13 +78,8 @@ public class ShopRepositoryImpl implements ShopRepository {
     // ?",name);
   }
 
-  @Override
   public List<Customer> getCustomers() {
-    return null;
-  }
-
-  public List<Customer> getCustomers(String name) {
-    return (List<Customer>) getHibernateTemplate().find("from Customer");
+      return (List<Customer>) getHibernateTemplate().findByNamedQuery("queryCustomers");
   }
 
   public void recharge(Customer customer, Float cash) {

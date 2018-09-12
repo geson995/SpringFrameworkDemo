@@ -12,8 +12,8 @@ import java.util.List;
 /** Created by geson on 2018/9/10. 13:10 */
 @Service("shopService")
 public class ShopServiceImpl implements ShopService {
-  @Autowired
-  private ShopRepository shopRepository;
+    @Autowired
+    private ShopRepository shopRepository;
 
   public void buyBook(String userName, String bookName) {
     float price = shopRepository.findBookByBookName(bookName).getPrice();
@@ -43,8 +43,16 @@ public class ShopServiceImpl implements ShopService {
   }
 
   @Override
-  public List<Book> showAllBooks() {
+  public List<Book> getAllBooks() {
+      /*
+       *TODO 尝试接口实现 通用CURD操作
+       *
+       **/
     return null;
   }
 
+    @Override
+    public Book findBookByName(String bookName) {
+        return shopRepository.findBookByBookName(bookName);
+    }
 }

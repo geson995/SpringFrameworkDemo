@@ -1,6 +1,6 @@
 package com.springmvc.controller;
 
-import com.springmvc.dao.ShopRepository;
+import com.alibaba.fastjson.JSON;
 import com.springmvc.entity.Book;
 import com.springmvc.entity.Customer;
 import com.springmvc.service.ShopService;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /** Created by geson on 2018/9/10. 12:21 */
@@ -24,13 +23,12 @@ import java.util.List;
 public class ShopController {
   private final Logger LOGGER = LoggerFactory.getLogger(ShopController.class);
   @Autowired private ShopService shopService;
-  @Autowired private ShopRepository shopRepository;
 
   @RequestMapping("/test/{customerName}")
   public String testMethod(@PathVariable(value = "customerName") String customerName, Model model) {
     System.out.println("start testMethod!");
     LOGGER.info(customerName + " buy a book From Logger");
-    shopService.buyBook(customerName, "java");
+      //    shopService.buyBook(customerName, "java");
     model.addAttribute("customerName", customerName);
     return "home";
   }
@@ -39,23 +37,48 @@ public class ShopController {
   public String customerInfos(ModelMap modelMap) {
     List<Customer> customerList = shopService.getAllCustomers();
     modelMap.addAttribute("customerList", customerList);
+      LOGGER.info(JSON.toJSONString(customerList));
     return "customerInfos";
   }
 
-  @RequestMapping(name = "purchaseBook", method = RequestMethod.POST)
+    @RequestMapping(value = "/purchaseBook", method = RequestMethod.POST)
   public String purchaseBook(ModelMap modelMap, String customerName, String bookName) {
     shopService.buyBook(customerName, bookName);
     modelMap.addAttribute("customerName", customerName);
     modelMap.addAttribute("bookName", bookName);
+        /*
+         *TODO hibernate表关联
+         *关联customer表和book表，展示购买记录
+         **/
     return "customerInfo";
   }
 
-  @RequestMapping(name = "bookInfo/{bookName}", method = RequestMethod.GET)
-  public ModelAndView queryBookInfoByName(
-          HttpServletRequest request, @PathVariable(value = "bookName") String bookName) {
-    Book book = shopRepository.findBookByBookName(bookName);
+    @RequestMapping(value = "/bookInfo/{bookName}", method = RequestMethod.GET)
+    public ModelAndView queryBookInfoByName(@PathVariable(value = "bookName") String bookName) {
     ModelAndView modelAndView = new ModelAndView("bookInfo");
-    modelAndView.addObject("bookModel", book);
+        Book book = null;
+        Boolean hasThisBook = true;
+        try {
+            System.out.println(bookName);
+            book = shopService.findBookByName(bookName);
+            LOGGER.info(JSON.toJSONString(book));
+            modelAndView.addObject("bookModel", book);
+            modelAndView.addObject("bookName", bookName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("No Such BookName");
+            hasThisBook = false;
+        }
+        modelAndView.addObject("hasBook", hasThisBook);
     return modelAndView;
   }
+
+    @RequestMapping("/recharge")
+    public String rechargeCustomer(String customerName, float rechargeNum, Model model) {
+        shopService.addCustomerOrRecharge(customerName, rechargeNum);
+        List<Customer> customerList = shopService.getAllCustomers();
+        model.addAttribute("customerList", customerList);
+        return "customerInfos";
+    }
+
 }
