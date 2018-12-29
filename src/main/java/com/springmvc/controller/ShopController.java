@@ -7,6 +7,7 @@ import com.springmvc.service.ShopService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -18,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by geson on 2018/9/10. 12:21
@@ -39,7 +39,7 @@ public class ShopController {
         return "home";
     }
 
-    @RequestMapping("/customerInfos")
+    @RequestMapping("/customerInfos.do")
     public String customerInfos(ModelMap modelMap) {
         List<Customer> customerList = shopService.getAllCustomers();
         modelMap.addAttribute("customerList", customerList);
@@ -47,13 +47,15 @@ public class ShopController {
         return "customerInfos";
     }
 
-    @RequestMapping("/testJson")
+    @RequestMapping(value = "/testJson", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List customerInfosJson() {
-        return shopService.getAllCustomers();
+        List<Customer> customerList = shopService.getAllCustomers();
+        LOGGER.info(JSON.toJSONString(customerList));
+        return customerList;
     }
 
-    @RequestMapping(value = "/test3.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/test3.do", method = RequestMethod.POST)
     @ResponseBody
     public List<String> test3() {
         List<String> list = new ArrayList<>();
@@ -62,7 +64,8 @@ public class ShopController {
         list.add("ccc");
         return list;
     }
-    @RequestMapping(value = "/test3.do",method = RequestMethod.GET)
+
+    @RequestMapping(value = "/test3.do", method = RequestMethod.GET)
     @ResponseBody
     public List<String> test2() {
         List<String> list = new ArrayList<>();
