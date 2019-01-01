@@ -10,11 +10,16 @@
         <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
-        <property name="current_session_context_class">org.springframework.orm.hibernate3.SpringSessionContext</property>
+        <property name="current_session_context_class">org.springframework.orm.hibernate3.SpringSessionContext
+        </property>
+        <property name="connection.url">jdbc:mysql://49.123.92.36:3306/book_store</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
 
         <!-- 配置hibernate二级缓存相关 -->
         <mapping class="com.springmvc.entity.Book"/>
         <mapping class="com.springmvc.entity.Customer"/>
+        <mapping class="com.springmvc.entity.Category"/>
+        <mapping class="com.springmvc.entity.CustomerBookEntity"/>
 
     </session-factory>
 </hibernate-configuration>

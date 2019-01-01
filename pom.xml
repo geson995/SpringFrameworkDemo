@@ -81,6 +81,13 @@
             <artifactId>spring-context-support</artifactId>
             <version>${spring-framework.version}</version>
         </dependency>
+        <!-- jwt -->
+        <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>2.2.0</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>

@@ -11,8 +11,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "BOOK")
 @NamedQueries({
-        @NamedQuery(name = "queryBookByName",query = "SELECT b FROM Book b WHERE b.name = :bookName"),
-        @NamedQuery(name = "updateBookCountByName",query = "UPDATE Book b SET b.count = b.count - 1 WHERE b.name = :bookName")
+        @NamedQuery(name = "queryBookByName", query = "SELECT b FROM Book b WHERE b.name = :bookName"),
+        @NamedQuery(name = "updateBookCountByName", query = "UPDATE Book b SET b.count = b.count - 1 WHERE b.name = :bookName")
 })
 //@org.hibernate.annotations.NamedQuery(name = "queryBookPriceByName11",query = "")
 public class Book {
@@ -31,6 +31,10 @@ public class Book {
     @Column(name = "COUNT", nullable = true)
     private int count;
 
+    @ManyToOne(targetEntity = Category.class)
+    @JoinColumn(name = "CATEGORY", referencedColumnName = "id")
+    private Category category;
+
     public Book() {
     }
 
@@ -38,6 +42,13 @@ public class Book {
         this.name = name;
         this.price = price;
         this.count = count;
+    }
+
+    public Book(String name, float price, int count, Category category) {
+        this.name = name;
+        this.price = price;
+        this.count = count;
+        this.category = category;
     }
 
     public int getId() {
