@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Consloe" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="FileAppender" fileName="${catalina.base}/logs/workorder.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+        <!--<Async name="AsyncAppender">-->
+        <!--<AppenderRef ref="FileAppender"/>-->
+        <!--</Async>-->
+    </Appenders>
+
+    <Loggers>
+        <Logger name="AsyncFileLogger" level="trace" additivity="true">
+            <AppenderRef ref="AsyncAppender"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

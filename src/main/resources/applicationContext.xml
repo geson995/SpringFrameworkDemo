@@ -23,7 +23,9 @@
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-    <context:property-placeholder location="classpath:db.properities"/>
+    <tx:annotation-driven proxy-target-class="true"/>
+
+    <context:property-placeholder location="classpath:db.properities" ignore-unresolvable="true"/>
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="user" value="${jdbc.user}"/>
@@ -34,17 +36,19 @@
         <property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
     </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
+        <!--<property name="packagesToScan" value="com.springmvc.entity"/>-->
         <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
     </bean>
 
-    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="checkWriteOperations" value="false"/>
     </bean>
 
     <!--配置事务容器-->
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
@@ -60,4 +64,7 @@
     <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:ehcache-setting.xml"/>
     </bean>
+
+    <bean id="persistenceExceptionTranslationPostProcessor"
+          class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 </beans>

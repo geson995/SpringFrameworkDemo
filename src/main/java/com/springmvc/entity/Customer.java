@@ -3,6 +3,7 @@ package com.springmvc.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * Created by geson on 2018/9/10.
@@ -16,17 +17,19 @@ import javax.persistence.*;
         @NamedQuery(name = "queryCustomersByName", query = "from Customer c where c.name = :customerName"),
         @NamedQuery(name = "queryCustomers", query = "from Customer ")
 })
+//@EntityListeners(AuditingEntityListener.class)
+//@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Customer {
     @Id
-    @GenericGenerator(name = "generator", strategy = "increment")
+    @GenericGenerator(name = "generator", strategy = "uuid")
     @GeneratedValue(generator = "generator")
     @Column(name = "ID")
-    private int id;
+    private String id;
 
     @Column(name = "USERNAME")
     private String username;
 
-    @Column(name = "PASSSWORD", nullable = false)
+    @Column(name = "PASSSWORD")
     private String password;
 
     @Column(name = "NAME", nullable = true)
@@ -35,19 +38,27 @@ public class Customer {
     @Column(name = "BALANCE", nullable = true)
     private float balance;
 
+    @Column(name = "CREATE_TIME", updatable = false, nullable = false)
+//    @CreatedDate
+    private Timestamp createTime;
+
     public Customer() {
     }
+
+    @Column(name = "MODIFY_DTIME")
+//    @LastModifiedDate
+    private long modifiedDate;
 
     public Customer(String name, float balance) {
         this.name = name;
         this.balance = balance;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -81,5 +92,21 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Timestamp getCreate_time() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp create_time) {
+        this.createTime = create_time;
+    }
+
+    public long getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(long modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 }

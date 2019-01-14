@@ -17,10 +17,10 @@ import javax.persistence.*;
 //@org.hibernate.annotations.NamedQuery(name = "queryBookPriceByName11",query = "")
 public class Book {
     @Id
-    @GenericGenerator(name = "generator", strategy = "increment")
+    @GenericGenerator(name = "generator", strategy = "uuid")
     @GeneratedValue(generator = "generator")
     @Column(name = "ID")
-    private int id;
+    private String id;
 
     @Column(name = "NAME", nullable = true)
     private String name;
@@ -30,6 +30,9 @@ public class Book {
 
     @Column(name = "COUNT", nullable = true)
     private int count;
+
+//    @CreatedDate
+//    private long createDate;
 
     @ManyToOne(targetEntity = Category.class)
     @JoinColumn(name = "CATEGORY", referencedColumnName = "id")
@@ -51,11 +54,11 @@ public class Book {
         this.category = category;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

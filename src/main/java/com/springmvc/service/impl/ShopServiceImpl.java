@@ -6,50 +6,55 @@ import com.springmvc.entity.Customer;
 import com.springmvc.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/** Created by geson on 2018/9/10. 13:10 */
+/**
+ * Created by geson on 2018/9/10. 13:10
+ */
 @Service("shopService")
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public class ShopServiceImpl implements ShopService {
     @Autowired
     private ShopRepository shopRepository;
 
-  public void buyBook(String userName, String bookName) {
-    float price = shopRepository.findBookByBookName(bookName).getPrice();
-    shopRepository.updateBookCount(bookName);
-    shopRepository.updateUserBalance(userName, price);
-  }
-
-  public void addCustomerOrRecharge(String userName, Float cash) {
-    List<Customer> customers = shopRepository.getCustomer(userName);
-    if (customers.isEmpty()) {
-      System.out.println("No Such Customer,NEW one!");
-      Customer customer = new Customer(userName, cash);
-      shopRepository.addCustomer(customer);
-    } else {
-      shopRepository.recharge(customers.get(0), cash);
-      System.out.println("Success to Recharge");
+    public void buyBook(String userName, String bookName) {
+        float price = shopRepository.findBookByBookName(bookName).getPrice();
+        shopRepository.updateBookCount(bookName);
+        shopRepository.updateUserBalance(userName, price);
     }
-  }
 
-  public void addBooks(List<Book> bookList) {
-    shopRepository.addBooks(bookList);
-  }
+    public void addCustomerOrRecharge(String userName, Float cash) {
+        List<Customer> customers = shopRepository.getCustomer(userName);
+        if (customers.isEmpty()) {
+            System.out.println("No Such Customer,NEW one!");
+            Customer customer = new Customer(userName, cash);
+            shopRepository.addCustomer(customer);
+        } else {
+            shopRepository.recharge(customers.get(0), cash);
+            System.out.println("Success to Recharge");
+        }
+    }
 
-  @Override
-  public List<Customer> getAllCustomers() {
-    return shopRepository.getCustomers();
-  }
+    public void addBooks(List<Book> bookList) {
+        shopRepository.addBooks(bookList);
+    }
 
-  @Override
-  public List<Book> getAllBooks() {
-      /*
-       *TODO 尝试接口实现 通用CURD操作
-       *
-       **/
-    return null;
-  }
+    @Override
+    public List<Customer> getAllCustomers() {
+        return shopRepository.getCustomers();
+    }
+
+    @Override
+    public List<Book> getAllBooks() {
+        /*
+         *TODO 尝试接口实现 通用CURD操作
+         *
+         **/
+        return null;
+    }
 
     @Override
     public Book findBookByName(String bookName) {

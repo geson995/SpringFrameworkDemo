@@ -8,15 +8,26 @@
         <!-- 2.关联实体的映射文件 .hbm.xml文件也在IOC容器配置SessionFactory实例时配置 -->
         <!-- 3.配置hibernate的基本属性  方言、sql显示及格式化、数据库表生成策略、二级缓存-->
         <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
-        <property name="show_sql">true</property>
+        <!--<property name="show_sql">true</property>-->
         <property name="hbm2ddl.auto">update</property>
-        <property name="current_session_context_class">org.springframework.orm.hibernate3.SpringSessionContext
-        </property>
-        <property name="connection.url">jdbc:mysql://49.123.92.36:3306/book_store</property>
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!--<property name="current_session_context_class">org.springframework.orm.hibernate5.SpringSessionContext-->
+        <!--</property>-->
+        <!--&lt;!&ndash;单独使用Hibernate时才需要，可交给Spring代理&ndash;&gt;-->
+        <!--<property name="current_session_context_class">thread</property>-->
+
+        <!--<property name="connection.url">jdbc:mysql://49.123.92.36:3306/book_store</property>-->
+        <!--<property name="connection.driver_class">com.mysql.jdbc.Driver</property>-->
 
         <!-- 配置hibernate二级缓存相关 -->
+        <!--<property name="hibernate.cache.use_second_level_cache">true</property>-->
+        <!--<property name="hibernate.cache.region.factory_class">-->
+        <!--org.hibernate.cache.ehcache.internal.SingletonEhcacheRegionFactory-->
+        <!--</property>-->
+        <!--<property name="hibernate.cache.use_query_cache">true</property>-->
+
         <mapping class="com.springmvc.entity.Book"/>
+        <!--<class-cache class="com.springmvc.entity.Customer" usage="read-only"/>-->
+        <!--<collection-cache collection="" usage=""/>-->
         <mapping class="com.springmvc.entity.Customer"/>
         <mapping class="com.springmvc.entity.Category"/>
         <mapping class="com.springmvc.entity.CustomerBookEntity"/>

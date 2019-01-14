@@ -10,9 +10,12 @@ import java.util.List;
  * 13:09
  */
 public interface ShopService {
-    public void buyBook(String userName,String bookName);
+    public void buyBook(String userName, String bookName);
+
     public void addCustomerOrRecharge(String userName, Float cash);
+
     public void addBooks(List<Book> bookList);
+
     public List<Customer> getAllCustomers();
 
     public List<Book> getAllBooks();
