@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b79bbbc1-e83e-4c2d-abf9-631d9d669c5f" name="Lab_PC" url="http://49.123.92.36">
+        <fileTransfer host="49.123.92.36" port="22" rootFolder="/home/geson" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
